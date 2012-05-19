@@ -1,6 +1,3 @@
-/**
- * 
- */
 package roge.gui;
 
 import java.awt.Container;
@@ -14,7 +11,6 @@ import javax.swing.JPanel;
  * @author Nicholas Rogé
  */
 public abstract class RWindow extends JFrame{
-    /**I have no idea what this is actually for, but meh.  Here's some BS documentation for it so the warning goes away.*/
     private static final long serialVersionUID = 6715060991592690674L;
     /**String to be returned in the event that this window has not had its title set yet.*/
     public static final String NO_TITLE="Untitled Window";
