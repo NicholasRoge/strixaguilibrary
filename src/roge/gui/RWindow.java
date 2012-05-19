@@ -1,6 +1,8 @@
 package roge.gui;
 
 import java.awt.Container;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,7 +12,7 @@ import javax.swing.JPanel;
  * 
  * @author Nicholas Rogé
  */
-public abstract class RWindow extends JFrame{
+public abstract class RWindow extends JFrame implements WindowListener{
     private static final long serialVersionUID = 6715060991592690674L;
     /**String to be returned in the event that this window has not had its title set yet.*/
     public static final String NO_TITLE="Untitled Window";
@@ -23,6 +25,8 @@ public abstract class RWindow extends JFrame{
         this._addMenu(this);
         this._addContent(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        this.addWindowListener(this);
     }
     
     protected void _initialize(String title){
@@ -62,6 +66,29 @@ public abstract class RWindow extends JFrame{
         this._initialize(title);
     }
     /*End Constructors*/
+    
+    /*Begin Overridden Methods*/
+    @Override public void windowClosing(WindowEvent event) {
+    }
+
+    @Override public void windowOpened(WindowEvent event) {
+    }
+
+    @Override public void windowClosed(WindowEvent event) {
+    }
+    
+    @Override public void windowIconified(WindowEvent event) {
+    }
+    
+    @Override public void windowDeiconified(WindowEvent event) {
+    }
+    
+    @Override public void windowActivated(WindowEvent event) {
+    }
+    
+    @Override public void windowDeactivated(WindowEvent event) {
+    }
+    /*End Overridden Methods*/
     
     /*Begin Getter Methods*/
     /**
