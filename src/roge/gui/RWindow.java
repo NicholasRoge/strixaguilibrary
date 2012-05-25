@@ -6,6 +6,7 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  * Wrapper for the JFrame class to make it a little bit more convenient to use.
@@ -22,11 +23,16 @@ public abstract class RWindow extends JFrame implements WindowListener{
     
     /*Begin Initializer Methods*/
     protected void _initialize(){       
-        this._addMenu(this);
-        this._addContent(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         this.addWindowListener(this);
+        
+        SwingUtilities.invokeLater(new Runnable(){
+           @Override public void run(){
+               RWindow.this._addMenu(RWindow.this);
+               RWindow.this._addContent(RWindow.this);
+           }
+        });
     }
     
     protected void _initialize(String title){
@@ -126,12 +132,17 @@ public abstract class RWindow extends JFrame implements WindowListener{
      * Changes the current content of the window.
      * 
      * @param content Content to change the window to.
+     * @param pack_after_change If set to <code>true</code> the window will be packed after it's content is changed out.
      */
-    public void changeContentPane(Container content){
+    public void changeContentPane(Container content,boolean pack_after_change){
         this.getContentPane().removeAll();
         this.setContentPane(content);
         this.validate();
         this.repaint();
+        
+        if(pack_after_change){
+            this.pack();
+        }
     }
     /*End Other Essential Methods*/
 }
