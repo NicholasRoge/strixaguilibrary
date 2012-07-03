@@ -98,9 +98,15 @@ public abstract class RWindow extends JFrame implements WindowListener{
         this.setWindowTitle(title);
         
         try{
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }catch(Exception e){
-            System.out.println("Not using Windows Look and Feel.");
+            System.out.println("Could not get the System's LookAndFeel classname.");
+        }
+        
+        try{
+        	System.setProperty("apple.laf.useScreenMenuBar","true");
+        }catch(Exception e){
+        	System.out.println("Not using Mac Look and Feel");
         }
         
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

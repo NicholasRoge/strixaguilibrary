@@ -11,8 +11,6 @@ import javax.swing.JTextArea;
  * @author Nicholas Rogé
  */
 public class ETextArea extends JTextArea{
-    private static final long serialVersionUID = 2674799969639586397L;
-
     /**
      * Provides an interface for objects which would like to receive updates whenever this object's text is updated.
      * 
@@ -27,8 +25,15 @@ public class ETextArea extends JTextArea{
         public void recieveTextUpdate(String text);
     }
     
-    private ArrayList<TextUpdateListener> __text_update_listeners=null;
+    /*Begin Final Variables*/
+    private static final long serialVersionUID = 2674799969639586397L;
     
+    /**Used with {@link #setMaximumCharacters(long)} to allow the user to input any number of characters.  */
+    public static final int INFINITE=-1;
+    /*End Final Variables*/
+    
+    private ArrayList<TextUpdateListener> __text_update_listeners=null;
+    private int __maximum_characters;
     
     /*Begin Constructors*/
     /**
@@ -45,6 +50,8 @@ public class ETextArea extends JTextArea{
      */
     public ETextArea(String default_text){
         super(default_text);
+        
+        this.setMaximumAllowedCharacters(ETextArea.INFINITE);
     }
     /*End Constructors*/
     
@@ -60,13 +67,33 @@ public class ETextArea extends JTextArea{
         super.processKeyEvent(event);
         
         if(event.getID()==KeyEvent.KEY_LAST){
+        	if(this.getMaximumAllowedCharacters()!=ETextArea.INFINITE){
+        		if(this.getText().length()>this.getMaximumAllowedCharacters()){
+        			this.setText(this.getText().substring(0,this.getMaximumAllowedCharacters()));
+        			
+        			return;
+        		}
+        	}
+        	
             this._broadcastTextToListeners(this.getText());
         }
     }
     /*End Overridden Methods*/
     
     
-    /*Begin Getter Methods*/
+    /*Begin Getter/Setter Methods*/
+    public int getMaximumAllowedCharacters(){
+    	return this.__maximum_characters;
+    }
+    
+    public void setMaximumAllowedCharacters(int maximum){
+    	if(maximum<0&&maximum!=ETextArea.INFINITE){
+    		throw new IllegalArgumentException("Argument 'maximum' must be >= 0.");
+    	}
+    	
+    	this.__maximum_characters=maximum;
+    }
+    
     /**
      * Returns the list of objects that would like to receive updates from this object whenever the text in this object updates.
      * 
@@ -79,7 +106,7 @@ public class ETextArea extends JTextArea{
         
         return this.__text_update_listeners;
     }
-    /*End Getter Methods*/
+    /*End Getter/Setter Methods*/
     
     
     /*Begin Other Essential Methods*/
