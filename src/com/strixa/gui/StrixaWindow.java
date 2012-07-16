@@ -2,7 +2,7 @@
  * File:  RWindow.java
  * Date of Creation:  May 5, 2012
  */
-package roge.gui;
+package com.strixa.gui;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -11,15 +11,17 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
-import roge.gui.menu.RMenu;
-import roge.gui.panel.RPanel;
+
+import com.strixa.gui.panel.StrixaPanel;
+import com.strixa.menu.StrixaMenu;
+
 
 /**
  * Wrapper for the JFrame class to make it a little bit more convenient to use.
  * 
  * @author Nicholas Rogé
  */
-public abstract class RWindow extends JFrame implements WindowListener{
+public abstract class StrixaWindow extends JFrame implements WindowListener{
     /**
      * Interface which should be implemented if a class wishes to create its own WindowActions.
      *
@@ -46,13 +48,13 @@ public abstract class RWindow extends JFrame implements WindowListener{
         @Override public boolean performAction(Object data){
             final WindowEvent event = (WindowEvent)data;
             
-            RWindow.this.onWindowClosing(event);
-            if(RWindow.this.__current_panel!=null){
-                RWindow.this.__current_panel.onPanelClose();
+            StrixaWindow.this.onWindowClosing(event);
+            if(StrixaWindow.this.__current_panel!=null){
+                StrixaWindow.this.__current_panel.onPanelClose();
             }
 
-            RWindow.this.dispose();
-            RWindow.this.setVisible(false);
+            StrixaWindow.this.dispose();
+            StrixaWindow.this.setVisible(false);
             
             return true;
         }
@@ -76,7 +78,7 @@ public abstract class RWindow extends JFrame implements WindowListener{
     /*End Final Variables*/
     
     /*Begin Member Variables*/
-    private RPanel                    __current_panel;
+    private StrixaPanel                    __current_panel;
     private boolean                   __fullscreen=false;
     private String                    __window_title;
     private Map<Integer,WindowAction> __window_actions;
@@ -87,8 +89,8 @@ public abstract class RWindow extends JFrame implements WindowListener{
     /**
      * Constructs this window with the default data.
      */
-    public RWindow(){
-        this(RWindow.NO_TITLE);
+    public StrixaWindow(){
+        this(StrixaWindow.NO_TITLE);
     }
     
     /**
@@ -96,7 +98,7 @@ public abstract class RWindow extends JFrame implements WindowListener{
      * 
      * @param title The title this window should have.
      */
-    public RWindow(String title){
+    public StrixaWindow(String title){
         this.setWindowTitle(title);
         
         try{
@@ -122,7 +124,7 @@ public abstract class RWindow extends JFrame implements WindowListener{
     
     /*Begin Overridden Methods*/
     @Override public void windowClosing(WindowEvent event){
-        this.performAction(RWindow.Actions.CLOSE_WINDOW,event);
+        this.performAction(StrixaWindow.Actions.CLOSE_WINDOW,event);
     }
 
     @Override public void windowActivated(WindowEvent arg0){
@@ -146,11 +148,11 @@ public abstract class RWindow extends JFrame implements WindowListener{
     
     /*Begin Getter/Setter Methods*/
     /**
-     * Gets the panel most recently set with the {@link #setActivePanel(RPanel)} method.
+     * Gets the panel most recently set with the {@link #setActivePanel(StrixaPanel)} method.
      * 
      * @return An RPanel value.
      */
-    public RPanel getCurrentPanel(){
+    public StrixaPanel getCurrentPanel(){
         return this.__current_panel;
     }
     
@@ -165,10 +167,20 @@ public abstract class RWindow extends JFrame implements WindowListener{
         return this.__window_actions;
     }
     
+    /**
+     * Check to see if the window is fullscreen.
+     * 
+     * @return Returns <code>true</code> if the window is fullscreen, and <code>false</code> otherwise.
+     */
     public boolean isWindowFullscreen(){
         return this.__fullscreen;
     }
     
+    /**
+     * Causes the window to change to fullscreen mode, or out of fullscreen mode, based on the given parameter.
+     * 
+     * @param fullscreen Should be <code>true</code> if the window should become fullscreen, and <code>false</code> otherwise.
+     */
     public void setWindowFullscreen(boolean fullscreen){
         if(fullscreen){
             if(!this.__fullscreen){
@@ -186,11 +198,11 @@ public abstract class RWindow extends JFrame implements WindowListener{
     /**
      * Gets the <code>__window_title</code> member variable.
      * 
-     * @return Returns the window's title, if it has been set, or {@link RWindow#NO_TITLE} if it has not.
+     * @return Returns the window's title, if it has been set, or {@link StrixaWindow#NO_TITLE} if it has not.
      */
     public String getWindowTitle(){
         if(this.__window_title==null){
-            return RWindow.NO_TITLE;
+            return StrixaWindow.NO_TITLE;
         }else{
             return this.__window_title;
         }
@@ -303,7 +315,7 @@ public abstract class RWindow extends JFrame implements WindowListener{
      * 
      * @param panel Panel to set as the active panel.
      */
-    public void setActiveContent(RMenu menu,RPanel panel){
+    public void setActiveContent(StrixaMenu menu,StrixaPanel panel){
         this.setActiveMenu(menu);
         this.setActivePanel(panel);
     }
@@ -313,7 +325,7 @@ public abstract class RWindow extends JFrame implements WindowListener{
      * 
      * @param menu Menu to set as active.
      */
-    public void setActiveMenu(RMenu menu){
+    public void setActiveMenu(StrixaMenu menu){
         this.setJMenuBar(menu);
     }
     
@@ -322,7 +334,7 @@ public abstract class RWindow extends JFrame implements WindowListener{
      * 
      * @param panel Panel to set as active.
      */
-    public void setActivePanel(RPanel panel){
+    public void setActivePanel(StrixaPanel panel){
         if(this.__current_panel!=null){
             this.__current_panel.onPanelClose();
         }

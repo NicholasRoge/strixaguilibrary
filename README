@@ -1,7 +1,7 @@
 This project should be used to compile a library to make the interfacing with the Java Swing library easier and more convenient.
 
 Project information:
-	Title:  RGUILibrary
+	Title:  StrixaGUILibrary
 	Developer:  Nicholas Rogé
 	Purpose:
 		This project is meant to be compiled into a jar file and used in other projects to make interfacing with the Java swing library easier, and more convenient.
