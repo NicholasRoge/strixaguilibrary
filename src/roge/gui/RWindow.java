@@ -59,6 +59,7 @@ public abstract class RWindow extends JFrame implements WindowListener{
         /*End Implemented Methods*/
     }
     
+    
     /**
      * List of actions available to this window.
      *
@@ -76,6 +77,7 @@ public abstract class RWindow extends JFrame implements WindowListener{
     
     /*Begin Member Variables*/
     private RPanel                    __current_panel;
+    private boolean                   __fullscreen=false;
     private String                    __window_title;
     private Map<Integer,WindowAction> __window_actions;
     /*End Member Variables*/
@@ -161,6 +163,24 @@ public abstract class RWindow extends JFrame implements WindowListener{
         }
         
         return this.__window_actions;
+    }
+    
+    public boolean isWindowFullscreen(){
+        return this.__fullscreen;
+    }
+    
+    public void setWindowFullscreen(boolean fullscreen){
+        if(fullscreen){
+            if(!this.__fullscreen){
+                this.setUndecorated(true);
+                this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            }
+        }else{
+            if(this.__fullscreen){
+                this.setUndecorated(false);
+                this.setExtendedState(JFrame.NORMAL);
+            }
+        }
     }
     
     /**
